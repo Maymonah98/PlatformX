@@ -5,6 +5,7 @@ import heartIcon from '../../../../static/heartIcon.png';
 import Thumb from '../../../Thumb';
 import { formatPrice } from '../../../../services/util';
 import { addProduct } from '../../../../services/cart/actions';
+import { fetchProducts } from '../../../../services/shelf/actions'
 
 
 const Product = ({ product, addProduct }) => {
@@ -39,12 +40,23 @@ const Product = ({ product, addProduct }) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+   fetchProducts: (id) => { dispatch(fetchProducts(id))},
+  }
+ }
+ const mapStateToProps = (state) => {
+  return {
+    fetchProductsData: state.getProducts
+  }
+ }
+
 Product.propTypes = {
   product: PropTypes.object.isRequired,
   addProduct: PropTypes.func.isRequired
 };
 
 export default connect(
-  null,
+  mapDispatchToProps,mapStateToProps,
   { addProduct }
 )(Product);

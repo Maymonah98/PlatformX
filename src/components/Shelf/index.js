@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+
 import { fetchProducts } from '../../services/shelf/actions';
 
 import Spinner from '../Spinner';
@@ -14,7 +15,7 @@ import './style.scss';
 class Shelf extends Component {
   static propTypes = {
     fetchProducts: PropTypes.func.isRequired,
-    products: PropTypes.array.isRquired,
+    products: PropTypes.array.isRequired,
     filters: PropTypes.array,
     sort: PropTypes.string
   };
@@ -75,15 +76,21 @@ class Shelf extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchProducts: (id) => { dispatch(fetchProducts(id))}
+  }
+ }
+const mapStateToProps = (state )=> {
+  //const product5= state.firestore.ordered.products
+   console.log(state);
+  return{
   products: state.firestore.ordered.products,
-  // filters: state.filters.items,
-  // sort: state.sort.type
-});
+  filters: state.filters.items,
+  sort: state.sort.type
+}}
 
-export default compose(
-  connect(mapStateToProps,
-  firestoreConnect([
-   { collection: 'products'}
-  ])
-  )) (Shelf);
+export default  compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect()
+ )(Shelf);

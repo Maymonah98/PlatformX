@@ -1,8 +1,8 @@
 import { FETCH_PRODUCTS } from './actionTypes';
 
-const initialState = {
-  products: []
-};
+// const initialState = {
+//   products: []
+// };
 
 const getProducts = (state = {}, action) => {
   const {data} = action
@@ -11,6 +11,7 @@ const getProducts = (state = {}, action) => {
       return {
         ...state,
         data 
+        //products: action.payload
       };
     default:
       return state;

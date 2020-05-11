@@ -1,5 +1,5 @@
 import { FETCH_PRODUCTS } from './actionTypes';
-//import { getFirestore } from 'redux-firestore'
+import { getFirestore } from 'redux-firestore'
 
 import axios from 'axios';
 import { productsAPI } from '../util';
@@ -23,18 +23,28 @@ const compare = {
   }
 };
 
+//const firestore = useFirestore()
+// useFirestoreConnect('products');
+// const products = useSelector((state) => state.firestore.data.products);
+//const firestore = getFirestore()
+// console.log(products);
+
 export const fetchProducts = (filters, search, sortBy, callback,productID) =>  {
+ 
+    
     return (dispatch, getState, { getFirestore }) => {
-    const firestore = getFirestore()
+      const firestore = getFirestore()
     firestore().collection('products').doc(productID).get()
     .then((doc) => {
       const data = doc.data()
-     if(doc.exists){
-        dispatch({ type: FETCH_PRODUCTS , data }) 
+      if(doc.exists){
+        dispatch({ type: FETCH_PRODUCTS ,payload: data }) 
        }else{
         console.log('does not exist')
        }
 
+      
+     
       // .then(querySnapshot => {
       //   const productsRef  = querySnapshot.docs.map(doc => doc.data());
       //   console.log(productsRef);

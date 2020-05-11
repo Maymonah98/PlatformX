@@ -1,27 +1,25 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from './services/store';
-import * as firebase from "firebase/app";
-import 'firebase/firestore'
-import "firebase/auth";
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
-import { createFirestoreInstance } from "redux-firestore";
+import firebase from './components/Firestore'
+import Store from './services/store';
+import { createFirestoreInstance } from 'redux-firestore'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+
 
 const rrfConfig = {
-  userProfile: "products",
-  useFirestoreForProfile: true
-};
-
+  userProfile: 'products',
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
 const rrfProps = {
   firebase,
   config: rrfConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance //since we are using Firestore
-};
-
-
+  dispatch: Store.dispatch,
+  createFirestoreInstance // <- needed if using firestore
+}
+// const Root = ({ children, initialState = {} }) => (
+//   <Provider store={store(initialState)}>
 const Root = ({ children}) => (
-  <Provider store={store}>
+  <Provider store={Store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
     {children}
     </ReactReduxFirebaseProvider>,
